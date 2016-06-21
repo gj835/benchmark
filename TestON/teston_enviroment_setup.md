@@ -182,6 +182,18 @@ nodes information
 test case code
 
 
+#### Start SCPFbatchFlowResp (OpenFlow Northbound Test)
+	
+###### Prepare for test parameters (exp. Switch number)
+	$ cd /TestON/tests/MISC/SCPFbatchFlowResp
+	$ vi SCPFbatchFlowResp.params
+	# change <GLOBAL><numSw> to the switch number you need
+
+##### Start test
+
+	$ cd ~/TestOn/bin
+	$ ./cli.py run SCPFbatchFlowResp
+
 <!--
 
 
