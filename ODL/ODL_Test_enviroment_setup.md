@@ -30,10 +30,18 @@ All component list below is running in one node, communicating by **loopback** n
 	mininet/util/install.sh -nvfw
 	
 ##### 3. pypy #####
+	sudo apt-get install -y pypy
 	curl -O https://bootstrap.pypa.io/get-pip.py
 	sudo pypy get-pip.py
 	
 ##### 4. pypy python packages #####
+	sudo pypy -m pip install cffi==1.3.1
+	sudo pypy -m pip install greenlet==0.4.9
+	sudo pypy -m pip install netaddr==0.7.18
+	sudo pypy -m pip install readline==6.2.4.1
+	sudo pypy -m pip install requests==2.9.1
+	sudo pypy -m pip install wsgiref==0.1.2
+	
 	sudo /usr/local/bin/pip install cffi==1.3.1
 	sudo /usr/local/bin/pip install greenlet==0.4.9
 	sudo /usr/local/bin/pip install netaddr==0.7.18
