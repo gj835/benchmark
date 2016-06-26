@@ -21,7 +21,8 @@ All component list below is running in one node, communicating by **loopback** n
 	sudo apt-get install software-properties-common -y
 	sudo add-apt-repository ppa:webupd8team/java -y
 	sudo apt-get update
-	sudo apt-get install oracle-java8-installer oracle-java8-set-default -y
+	sudo apt-get install oracle-java8-installer oracle-java8-set-default -y89024317
+	
 	export JAVA_HOME=/usr/lib/jvm/java-8-oracle
 	
 ##### 2. Mininet #####
@@ -70,8 +71,9 @@ All component list below is running in one node, communicating by **loopback** n
 	# persistent=false
 	
 	# start controller
+	export JAVA_MAX_MEM=8g;
 	./bin/start
-	export JAVA_MAX_MEM=8g; ./apache-karaf-3.0.5/bin/start
+	
 	
 ##### 5.2 Option 2: ONOS package #####	
 	wget https://downloads.onosproject.org/release/onos-1.5.1.zip
@@ -87,7 +89,37 @@ All component list below is running in one node, communicating by **loopback** n
 	cd
 	git clone https://git.opendaylight.org/gerrit/p/integration/test.git
 	cd test/tools/odl-mdsal-clustering-tests/clustering-performance-test/
+
+##### 7. clear up environment script #####
+ODL test script doesn't include environment clean up method, so will lead to compute power accumluation.
+
+	vi ~/.bashrc
+	## add the following lines:
+	export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+	export JAVA_MAX_MEM=8g
+
+	killONOS(){
+		sudo kill -9 `ps -ef | grep "./cli.py" | grep -v grep | grep -v vim | awk '{print $2}'`
+		sudo kill -9 `ps -ef | grep "ssh -X" | grep -v grep | awk '{print $2}'`
+		sudo pkill bgpd
+		sudo pkill zebra
+		sudo kill -9 `ps -ef | grep "bird" | grep -v grep | awk '{print $2}'`
+		~/onos-1.5.1/apache-karaf-3.0.5/bin/stop
+		sudo pkill -9 java
+		sudo mn -c
+	}
 	
+	killODL(){
+		sudo kill -9 `ps -ef | grep "./cli.py" | grep -v grep | grep -v vim | awk '{print $2}'`
+		sudo kill -9 `ps -ef | grep "ssh -X" | grep -v grep | awk '{print $2}'`
+		sudo pkill bgpd
+		sudo pkill zebra
+		sudo kill -9 `ps -ef | grep "bird" | grep -v grep | awk '{print $2}'`
+		~/distribution-karaf-0.4.0-Beryllium/bin/stop
+		sudo pkill -9 java
+		sudo mn -c
+	}
+
 #### TestCase: OpenFlow Northbound performance ####
 You will need to open multiple ssh session for operating the test
 
@@ -106,15 +138,17 @@ You will need to open multiple ssh session for operating the test
 ##### session 3.1: execute ODL test script #####
 	# 1 flow / REST call
 	cd test/tools/odl-mdsal-clustering-tests/clustering-performance-test/
-	pypy ./flow_add_delete_test.py --threads 5 --flows 20000 --auth --timeout 10
+	(old test script)pypy ./flow_add_delete_test.py --threads 5 --flows 20000 --auth --timeout 10
+	pypy ./odl_tester.py --threads 5 --flows 100000 --timeout 10
 	
 	# 200 flows / REST call
-	pypy ./flow_add_delete_test.py --threads 5 --flows 20000 --auth --timeout 10 --fpr 200 --bulk-delete
+	(old test script)pypy ./flow_add_delete_test.py --threads 5 --flows 20000 --auth --timeout 10 --fpr 200 --bulk-delete
+	pypy ./odl_tester.py --threads 5 --flows 100000 --timeout 10 --fpr 200 --bulk-delete
 	
 ##### session 3.2: execute ONOS test script #####
 	cd test/tools/odl-mdsal-clustering-tests/clustering-performance-test/
 	# 1 flow / REST call
-	pypy ./onos_tester.py --flows 100000 --timeout 10
+	pypy ./onos_tester.py --threads 5 --flows 100000 --timeout 10
 	
 	# 200 flows / REST call	
-	pypy ./onos_tester.py --flows 100000 --timeout 10 --fpr 200 --bulk-delete
+	pypy ./onos_tester.py --threads 5 --flows 100000 --timeout 10 --fpr 200 --bulk-delete	
