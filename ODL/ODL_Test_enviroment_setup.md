@@ -21,7 +21,7 @@ All component list below is running in one node, communicating by **loopback** n
 	sudo apt-get install software-properties-common -y
 	sudo add-apt-repository ppa:webupd8team/java -y
 	sudo apt-get update
-	sudo apt-get install oracle-java8-installer oracle-java8-set-default -y89024317
+	sudo apt-get install oracle-java8-installer oracle-java8-set-default -y
 	
 	export JAVA_HOME=/usr/lib/jvm/java-8-oracle
 	
@@ -119,6 +119,9 @@ ODL test script doesn't include environment clean up method, so will lead to com
 		sudo pkill -9 java
 		sudo mn -c
 	}
+	
+	. ~/.bashrc
+	
 
 #### TestCase: OpenFlow Northbound performance ####
 You will need to open multiple ssh session for operating the test
