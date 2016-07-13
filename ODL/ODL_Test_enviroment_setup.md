@@ -24,11 +24,18 @@ All component list below is running in one node, communicating by **loopback** n
 	sudo apt-get install oracle-java8-installer oracle-java8-set-default -y
 	
 	export JAVA_HOME=/usr/lib/jvm/java-8-oracle
-	
+
+##### 2. OpenVSwitch #####
+	 # for version 2.3.1
+	 add-apt-repository ppa:vshn/openvswitch
+     apt-get update
+     apt-get install openvswitch-common openvswitch-switch
+     
 ##### 2. Mininet #####
+	# coresponding to ovs 2.3.1
 	git clone http://github.com/mininet/mininet
-	# you can select a version
-	mininet/util/install.sh -nvfw
+	git checkout 2.2.1
+	mininet/util/install.sh -nfw
 	
 ##### 3. pypy #####
 	sudo apt-get install -y pypy
