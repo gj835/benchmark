@@ -9,6 +9,9 @@ This is an instruction base on **OpenDaylight Performance White Paper**
 All component list below is running in one node, communicating by **loopback** network.
 
 #### Dependencies send up ####
+	sudo apt-get install linux-generic-lts-wily
+	sudo reboot
+
 	sudo apt-get update
 	sudo apt-get install -y curl wget unzip git
 	
@@ -34,7 +37,9 @@ All component list below is running in one node, communicating by **loopback** n
 ##### 2. Mininet #####
 	# coresponding to ovs 2.3.1
 	git clone http://github.com/mininet/mininet
+	cd mininet
 	git checkout 2.2.1
+	cd
 	mininet/util/install.sh -nfw
 	
 ##### 3. pypy #####
