@@ -163,12 +163,12 @@ Add the following code to the end of ~/.bashrc (on node1), for removing previous
 	
 	
 #### Starting Sample Test
-	$ cd ~/TestOn/bin
+	$ cd ~/TestON/bin
 	$ ./cli.py run SAMPstartTemplate2_3node
 
 
-All test case script is locate at ~/TestOn/tests/. For example the above test case:
-~/TestOn/tests/SAMP/SAMPstartTemplate2_3node
+All test case script is locate at ~/TestON/tests/. For example the above test case:
+~/TestON/tests/SAMP/SAMPstartTemplate2_3node
 
 You will see three files:
 
@@ -191,7 +191,7 @@ test case code
 
 ##### Start test
 
-	$ cd ~/TestOn/bin
+	$ cd ~/TestON/bin
 	$ ./cli.py run SCPFbatchFlowResp
 
 <!--
